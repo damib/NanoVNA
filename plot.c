@@ -461,7 +461,7 @@ float groupdelay(const float *v, const float *w, float deltaf)
  */
 float linear(const float *v)
 {
-  return - sqrtf(v[0]*v[0] + v[1]*v[1]);
+  return sqrtf(v[0]*v[0] + v[1]*v[1]);
 }
 
 /*
@@ -538,7 +538,7 @@ trace_into_index(int x, int t, int i, float array[101][2])
     v = refpos - groupdelay_from_array(i, array) * scale;
     break;
   case TRC_LINEAR:
-    v = refpos + linear(coeff) * scale;
+    v = refpos - linear(coeff) * scale;
     break;
   case TRC_SWR:
     v = refpos+ (1 - swr(coeff)) * scale;
