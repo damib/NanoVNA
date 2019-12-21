@@ -803,21 +803,25 @@ trace_get_info(int t, char *buf, int len)
 {
   const char *type = get_trace_typename(t);
   int n;
+  float scale = get_trace_scale(t);
   switch (trace[t].type) {
   case TRC_LOGMAG:
-    chsnprintf(buf, len, "%s %ddB/", type, (int)get_trace_scale(t));
+    if (scale >= 10)
+      chsnprintf(buf, len, "%s %ddB/", type, (int)scale);
+    else
+      chsnprintf(buf, len, "%s %.1fdB/", type, scale);    
     break;
   case TRC_PHASE:
-    chsnprintf(buf, len, "%s %d" S_DEGREE "/", type, (int)get_trace_scale(t));
+    chsnprintf(buf, len, "%s %d" S_DEGREE "/", type, (int)scale);
     break;
   case TRC_SMITH:
   //case TRC_ADMIT:
   case TRC_POLAR:
-    chsnprintf(buf, len, "%s %.1fFS", type, get_trace_scale(t));
+    chsnprintf(buf, len, "%s %.1fFS", type, scale);
     break;
   default:
     n = chsnprintf(buf, len, "%s ", type);
-    string_value_with_prefix(buf+n, len-n, get_trace_scale(t), '/');
+    string_value_with_prefix(buf+n, len-n, scale, '/');
     break;
   }
 }
