@@ -475,6 +475,16 @@ float swr(const float *v)
   return (1 + x)/(1 - x);
 }
 
+float real(const float *v)
+{
+  return v[0];
+}
+
+float imag(const float *v)
+{
+  return v[1];
+}
+
 float resitance(const float *v) {
   float z0 = 50;
   float d = z0 / ((1-v[0])*(1-v[0])+v[1]*v[1]);
@@ -544,10 +554,10 @@ trace_into_index(int x, int t, int i, float array[101][2])
     v = refpos+ (1 - swr(coeff)) * scale;
     break;
   case TRC_REAL:
-    v = refpos - coeff[0] * scale;
+    v = refpos - real(coeff) * scale;
     break;
   case TRC_IMAG:
-    v = refpos - coeff[1] * scale;
+    v = refpos - imag(coeff) * scale;
     break;
   case TRC_R:
     v = refpos - resitance(coeff) * scale;
